@@ -14,11 +14,11 @@
 #include <stdint.h>
 
 #ifndef F_CPU
-#define F_CPU 				1000000UL
+#define F_CPU 				8000000UL
 #endif
 
-#define SLAVEADRESS 		0x10
-
+#define GATEADRESS 				0x03
+#define SIGNALGENERATORADRESS	0x09
 //leftshifting is necessary because the last seven bit up to MSB define the adress
 //and the LSB defines the read/write condition
 #define WRITE_TO_SLAVE(ADRESS)		((ADRESS << 1) + 0)
@@ -30,19 +30,18 @@
 #define I2C_SDA             PC4
 #define I2C_SCL             PC5
 
-#define BYTES 				8
+#define BYTES 				3
 
 #define TRUE 				1
 #define FALSE 				0
 
-#define SLC_FREQUENCY		50000
+#define SLC_FREQUENCY		400000
 
 #define CLI_TIME_us 80000
 
 struct Message
-{
-	volatile uint8_t adress;
-	volatile uint8_t byte[BYTES];
+{		
+	uint8_t byte[BYTES];
 };
 
 void initAsSlave(uint8_t deviceAdress);

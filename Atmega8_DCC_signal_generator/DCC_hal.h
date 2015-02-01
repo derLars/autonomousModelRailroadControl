@@ -9,30 +9,19 @@
 //#PROGRAMMER: USBPROG (avrispmkII clone)                         #
 //#################################################################
 
-//DCC_hal.c
+//DCC_hal.h
+
+#include "stdint.h"
 
 #include <avr/io.h>
 
-uint8_t i;
+#ifndef F_CPU
+#define F_CPU 8000000UL
+#endif
 
-void initGPIO(void)
-{
-	DDRB |= (1<<PB0) | (1<<PB1);
-	PORTB = 0x00;
-}
+void initGPIO(void);
 
-void zero(void)
-{
-	PORTB = (1<<PB0);
-	for(i=0;i<88;i++);
-	PORTB = (1<<PB1);
-	for(i=0;i<88;i++);
-}
+void zero(void);
+void zeroLong(void);
 
-void one(void)
-{
-	PORTB = (1<<PB0);
-	for(i=0;i<45;i++);
-	PORTB = (1<<PB1);
-	for(i=0;i<45;i++);
-}
+void one(void);

@@ -19,7 +19,7 @@ OUTPUTFORMAT=ihex
 
 #all the project files
 #REPLACE THESE FILES WITH YOUR PROJECT FILES!!!!
-PRJSRC=main.c DCC_hal.c 
+PRJSRC=main.c messageDirector.c ../Atmega8_Modules/i2c.c ../Atmega8_Modules/uart.c
 
 #project files as .o files
 OBJECTS= $(PRJSRC:.c=.o)
