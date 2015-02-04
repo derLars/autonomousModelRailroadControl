@@ -68,5 +68,5 @@ fuse:
 	sudo $(AVRDUDE) -c $(PROGRAMMER) -p ATmega8 -U lfuse:w:0xc4:m -U hfuse:w:0xd9:m 
 
 clean:
-	rm -f *.o
+	rm -f $(OBJECTS)	
 	rm -f *.elf

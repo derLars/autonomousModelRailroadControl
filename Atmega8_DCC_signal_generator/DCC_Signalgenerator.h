@@ -13,7 +13,7 @@
 
 #include <stdint.h>
 
-#define ADRESSRANGE 10
+#define ADRESSRANGE 5
 
 typedef struct
 {

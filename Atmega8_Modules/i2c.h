@@ -17,8 +17,8 @@
 #define F_CPU 				8000000UL
 #endif
 
-#define GATEADRESS 				0x03
-#define SIGNALGENERATORADRESS	0x09
+#define SIGNALGENERATORADRESS 		0x24
+
 //leftshifting is necessary because the last seven bit up to MSB define the adress
 //and the LSB defines the read/write condition
 #define WRITE_TO_SLAVE(ADRESS)		((ADRESS << 1) + 0)
@@ -40,8 +40,9 @@
 #define CLI_TIME_us 80000
 
 struct Message
-{		
-	uint8_t byte[BYTES];
+{
+	volatile uint8_t adress;
+	volatile uint8_t byte[BYTES];
 };
 
 void initAsSlave(uint8_t deviceAdress);

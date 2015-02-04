@@ -16,6 +16,8 @@
 #include "../Atmega8_Modules/i2c.h"
 
 #include <avr/interrupt.h>
+#include <avr/io.h>
+#include <avr/delay.h>
 
 volatile struct Message msgToReceive;
 volatile DCC_packet train[ADRESSRANGE];
@@ -24,11 +26,13 @@ ConstantValues constantValues;
 void decode(void);
 
 ISR(INT0_vect)       
-{   	
+{   	   	
+   	
    	cli();
   	switch(checkRequest())
   	{
   		case REQUEST_TO_READ:
+  			PORTC &= ~(1<<PC0);
   			receiveAsSlave(&msgToReceive);
   			decode();
   			break;
@@ -37,6 +41,7 @@ ISR(INT0_vect)
   			break;
   	}    	
    	sei();
+   	PORTC &= ~(1<<PC0);
 }
 
 void decode(void)
@@ -50,12 +55,29 @@ void decode(void)
 	}	
 }
 
+void initINT0(void)
+{
+	MCUCR &= ~(1<<ISC01) | ~(1<<ISC00);
+	GIMSK |= (1<<INT0);
+
+	DDRC |= (1<<PC0);
+	PORTC |= (1<<PC0);
+
+	sei();
+}
+
 void initialize(void)
 {
 	uint8_t i,j;
 	
-	initGPIO();
+	//initGPIO();
+	DDRB = 0xff;
+	PORTB = 0x00;
 
+	DDRC |= (1<<PC0);
+	PORTC |= (1<<PC0);
+	initAsSlave(SIGNALGENERATORADRESS);
+	
 	for(i=0; i<16;i++)
 	{
 		constantValues.synchronizeBits[i] = (void*)one;
@@ -84,6 +106,8 @@ void initialize(void)
 			train[i].checksumBits[j] = (void*)zero;
 		}				
 	}
+
+	initINT0();
 }
 
 void generateSignal(void)
