@@ -14,10 +14,10 @@
 #include <stdint.h>
 
 #ifndef F_CPU
-#define F_CPU 				8000000UL
+#define F_CPU 				2000000UL
 #endif
 
-#define BAUD				4800L
+#define BAUD				1200L
 
 #define BYTES 				3
 

@@ -70,12 +70,8 @@ void initialize(void)
 {
 	uint8_t i,j;
 	
-	//initGPIO();
-	DDRB = 0xff;
-	PORTB = 0x00;
+	initGPIO();
 
-	DDRC |= (1<<PC0);
-	PORTC |= (1<<PC0);
 	initAsSlave(SIGNALGENERATORADRESS);
 	
 	for(i=0; i<16;i++)
@@ -104,7 +100,18 @@ void initialize(void)
 			train[i].adressBits[j] = i & (1<<j) ? (void*)one : (void*)zero;						
 			train[i].velocityBits[j] = (void*)zero;
 			train[i].checksumBits[j] = (void*)zero;
-		}				
+		}			
+		train[i].velocityBits[0] = (void*)one;
+		train[i].velocityBits[1] = (void*)one;
+		train[i].velocityBits[2] = (void*)one;
+		train[i].velocityBits[3] = (void*)one;
+		train[i].velocityBits[4] = (void*)one;
+		train[i].velocityBits[5] = (void*)one;
+
+		train[i].checksumBits[1] = (void*)one;	
+		//train[i].checksumBits[4] = (void*)one;	
+		//train[i].checksumBits[5] = (void*)one;	
+		//train[i].checksumBits[7] = (void*)one;	
 	}
 
 	initINT0();
@@ -117,7 +124,7 @@ void generateSignal(void)
 	{
 		for(i=0; i<ADRESSRANGE; i++)
 		{
-			for(j=15; j>=0; j--)
+			for(j=11; j>=0; j--)
 			{
 				constantValues.synchronizeBits[j]();
 			}

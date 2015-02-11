@@ -13,7 +13,7 @@
 #include "DCC_hal.h"
 #include <avr/interrupt.h>
 
-uint8_t i;
+volatile uint8_t i;
 
 #ifndef test
 void initGPIO(void)
@@ -26,25 +26,25 @@ void initGPIO(void)
 void zeroLong(void)
 {
 	PORTB = (1<<PB0);
-	for(i=0;i<110;i++);
+	for(i=0;i<40;i++);
 	sei();
 	PORTB = (1<<PB1);
-	for(i=0;i<110;i++);	
+	for(i=0;i<35;i++);	
 	cli();
 }
 
 void zero(void)
 {
 	PORTB = (1<<PB0);
-	for(i=0;i<88;i++);
+	for(i=0;i<20;i++);
 	PORTB = (1<<PB1);
-	for(i=0;i<88;i++);	
+	for(i=0;i<15;i++);	
 }
 
 void one(void)
 {
 	PORTB = (1<<PB0);
-	for(i=0;i<45;i++);
+	for(i=0;i<10;i++);
 	PORTB = (1<<PB1);
-	for(i=0;i<45;i++);	
+	for(i=0;i<8;i++);	
 }

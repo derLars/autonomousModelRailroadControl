@@ -14,7 +14,7 @@
 #include <stdint.h>
 
 #ifndef F_CPU
-#define F_CPU 				8000000UL
+#define F_CPU 				2000000UL
 #endif
 
 #define SIGNALGENERATORADRESS 		0x24
@@ -35,7 +35,7 @@
 #define TRUE 				1
 #define FALSE 				0
 
-#define SLC_FREQUENCY		400000
+#define SLC_FREQUENCY		100000
 
 #define CLI_TIME_us 80000
 
