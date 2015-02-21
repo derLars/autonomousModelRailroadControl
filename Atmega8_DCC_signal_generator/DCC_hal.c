@@ -25,26 +25,26 @@ void initGPIO(void)
 
 void zeroLong(void)
 {
-	PORTB = (1<<PB0);
-	for(i=0;i<40;i++);
-	sei();
 	PORTB = (1<<PB1);
-	for(i=0;i<35;i++);	
+	for(i=0;i<41;i++);
+	sei();
+	PORTB = (1<<PB0);
+	for(i=0;i<37;i++);	
 	cli();
 }
 
 void zero(void)
-{
-	PORTB = (1<<PB0);
-	for(i=0;i<20;i++);
+{	
 	PORTB = (1<<PB1);
-	for(i=0;i<15;i++);	
+	for(i=0;i<21;i++);
+	PORTB = (1<<PB0);
+	for(i=0;i<16;i++);	
 }
 
 void one(void)
-{
-	PORTB = (1<<PB0);
-	for(i=0;i<10;i++);
+{	
 	PORTB = (1<<PB1);
-	for(i=0;i<8;i++);	
+	for(i=0;i<10;i++);	
+	PORTB = (1<<PB0);
+	for(i=0;i<6;i++);
 }
