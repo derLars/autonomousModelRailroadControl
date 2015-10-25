@@ -97,7 +97,7 @@ uint8_t startMaster(uint8_t rwCondition)
 	return TWSR & 0xF8;	
 }
 
-uint8_t sendAsMaster(uint8_t slaveAdress, struct Message msg)
+uint8_t sendAsMaster(uint8_t slaveAdress, struct Message msg, uint8_t bytes)
 {
 	uint8_t twsr = startMaster(WRITE_TO_SLAVE(slaveAdress));
 
@@ -107,7 +107,7 @@ uint8_t sendAsMaster(uint8_t slaveAdress, struct Message msg)
 	}
 
 	int i;
-	for(i=0; i<BYTES; i++)
+	for(i=0; i<bytes; i++)
 	{		
 		//fill message with byte
 		TWDR = msg.byte[i];
@@ -140,13 +140,13 @@ uint8_t sendAsMaster(uint8_t slaveAdress, struct Message msg)
     return TRUE;
 }
 
-uint8_t sendAsMasterWithInterrupt(uint8_t slaveAdress, struct Message msg)
+uint8_t sendAsMasterWithInterrupt(uint8_t slaveAdress, struct Message msg, uint8_t bytes)
 {
 	uint8_t twsr;
 
 	setInterrupt();
 	
-	twsr = sendAsMaster(slaveAdress, msg);
+	twsr = sendAsMaster(slaveAdress, msg, bytes);
     
     revokeInterrupt();
    	
@@ -155,16 +155,16 @@ uint8_t sendAsMasterWithInterrupt(uint8_t slaveAdress, struct Message msg)
     return twsr;
 }
 
-uint8_t sendAsSlave(struct Message msg)
+uint8_t sendAsSlave(struct Message msg, uint8_t bytes)
 {
 	uint8_t twsr;
 
 	int i;
-	for(i=0; i<BYTES; i++)
+	for(i=0; i<bytes; i++)
 	{				
 		TWDR = msg.byte[i];
 		
-		if(i < BYTES-1)
+		if(i < bytes-1)
 		{
 			//TWEN enables TWI
 			//TWINT clears TWI interrupt
@@ -190,7 +190,7 @@ uint8_t sendAsSlave(struct Message msg)
 	TWCR = (1<<TWINT) | (1<<TWEA) | (1<<TWEN);
 }
 
-uint8_t receiveAsMaster(uint8_t slaveAdress, struct Message *msg)
+uint8_t receiveAsMaster(uint8_t slaveAdress, struct Message *msg, uint8_t bytes)
 {
 	uint8_t twsr = startMaster(RECEIVE_FROM_SLAVE(slaveAdress));
 
@@ -200,7 +200,7 @@ uint8_t receiveAsMaster(uint8_t slaveAdress, struct Message *msg)
 	}
 
 	int i;
-	for(i=0; i<BYTES; i++)
+	for(i=0; i<bytes; i++)
 	{
 		//TWEN enables TWI
 		//TWIN clears TWI interrupt
@@ -233,14 +233,14 @@ uint8_t receiveAsMaster(uint8_t slaveAdress, struct Message *msg)
     return TRUE;
 }
 
-uint8_t receiveAsMasterWithInterrupt(uint8_t slaveAdress, struct Message *msg)
+uint8_t receiveAsMasterWithInterrupt(uint8_t slaveAdress, struct Message *msg, uint8_t bytes)
 {
 	uint8_t twsr;
 
 	setInterrupt();
 	
 	_delay_us(CLI_TIME_us);
-	twsr = receiveAsMaster(slaveAdress, msg);
+	twsr = receiveAsMaster(slaveAdress, msg, bytes);
     
     revokeInterrupt();
    	
@@ -249,10 +249,10 @@ uint8_t receiveAsMasterWithInterrupt(uint8_t slaveAdress, struct Message *msg)
     return twsr;
 }
 
-void receiveAsSlave(struct Message *msg)
+void receiveAsSlave(struct Message *msg, uint8_t bytes)
 {	
 	int i;
-	for(i=0; i<BYTES; i++)
+	for(i=0; i<bytes; i++)
 	{		
 			//TWEŃ enables TWI
 			//TWEA enables acknowledge bit
@@ -262,7 +262,6 @@ void receiveAsSlave(struct Message *msg)
 			//wait until received the message
 			while (!(TWCR & (1<<TWINT)));
 
-			PORTB = i;
 			//write received byte into the struct
 			msg->byte[i] = TWDR;
 	}

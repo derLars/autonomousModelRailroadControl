@@ -19,7 +19,7 @@
 
 #define BAUD				1200L
 
-#define BYTES 				3
+#define BYTES 				1
 
 #define UBRR_VALUE ((F_CPU+BAUD*8)/(BAUD*16)-1)
 

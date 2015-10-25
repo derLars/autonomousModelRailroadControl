@@ -48,14 +48,14 @@ struct Message
 void initAsSlave(uint8_t deviceAdress);
 void initAsMaster(uint32_t bitrate);
 
-uint8_t sendAsMaster(uint8_t slaveAdress, struct Message msg);
-uint8_t sendAsMasterWithInterrupt(uint8_t slaveAdress, struct Message msg);
+uint8_t sendAsMaster(uint8_t slaveAdress, struct Message msg, uint8_t bytes);
+uint8_t sendAsMasterWithInterrupt(uint8_t slaveAdress, struct Message msg, uint8_t bytes);
 
-uint8_t sendAsSlave(struct Message msg);
+uint8_t sendAsSlave(struct Message msg, uint8_t bytes);
 
-uint8_t receiveAsMaster(uint8_t slaveAdress, struct Message *msg);
-uint8_t receiveAsMasterWithInterrupt(uint8_t slaveAdress, struct Message *msg);
+uint8_t receiveAsMaster(uint8_t slaveAdress, struct Message *msg, uint8_t bytes);
+uint8_t receiveAsMasterWithInterrupt(uint8_t slaveAdress, struct Message *msg, uint8_t bytes);
 
-void receiveAsSlave(struct Message *msg);
+void receiveAsSlave(struct Message *msg, uint8_t bytes);
 
 uint8_t checkRequest(void);

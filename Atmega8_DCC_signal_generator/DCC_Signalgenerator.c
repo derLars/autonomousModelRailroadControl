@@ -33,7 +33,7 @@ ISR(INT0_vect)
   	{
   		case REQUEST_TO_READ:
   			PORTC &= ~(1<<PC0);
-  			receiveAsSlave(&msgToReceive);
+  			receiveAsSlave(&msgToReceive, 3);
   			decode();
   			break;
   		default:

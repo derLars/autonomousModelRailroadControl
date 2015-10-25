@@ -12,14 +12,14 @@
 MCU=atmega8
 
 #the name of the finally output file
-OUTPUTNAME=signalGenerator
+OUTPUTNAME=GateController
 
 #the format of the finally output file
 OUTPUTFORMAT=ihex
 
 #all the project files
 #REPLACE THESE FILES WITH YOUR PROJECT FILES!!!!
-PRJSRC=main.c DCC_hal.c DCC_Signalgenerator.c ../Atmega8_Modules/i2c.c
+PRJSRC=main.c ../Atmega8_Modules/i2c.c
 
 #project files as .o files
 OBJECTS= $(PRJSRC:.c=.o)
@@ -71,7 +71,7 @@ fuse8:
 fuse4:
 	sudo $(AVRDUDE) -c $(PROGRAMMER) -p ATmega8 -U lfuse:w:0xe3:m -U hfuse:w:0xd9:m 
 
-#set internal 2MHZ <--
+#set internal 2MHZ
 fuse2:
 	sudo $(AVRDUDE) -c $(PROGRAMMER) -p ATmega8 -U lfuse:w:0xe2:m -U hfuse:w:0xd9:m 
 
